@@ -1,100 +1,80 @@
-# this file is executed for login shells
-# (when you start up your machine on most systems,
-# or every new window on macs)
+# echo is like puts for bash (bash is the program running in your terminal)
+echo "Loading ~/.bash_profile a shell script that runs in every new terminal you open"
 
-# for npm path
-export PATH=/usr/local/share/npm/bin:$PATH
+# $VARIABLE will render before the rest of the command is executed
+echo "Logged in as $USER at $(hostname)"
 
-# for pkgconfig path
-export PKG_CONFIG_PATH="/opt/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+c_reset='\[\e[0m\]'
+#  \e[0;31m\ sets the color to red
+c_path='\[\e[0;31m\]'
+# \e[0;32m\ sets the color to green
+c_git_clean='\[\e[0;32m\]'
+# \e[0;31m\ sets the color to red
+c_git_dirty='\[\e[0;31m\]'
 
-# for gitcompletion
-if [ -f ~/.git-completion.bash ]; then
-  . ~/.git-completion.bash
-fi
+PROMPT_COMMAND='PS1="${c_path}\W${c_reset}$(git_prompt) :> "'
 
-export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATHexport PATH=/usr/local/bin:$PATH
+export PS1='\n\[\033[0;31m\]\W\[\033[0m\]$(git_prompt)\[\033[0m\]:> '
 
-# Setting PATH for Python 2.7
-# The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH
+# determines if the git branch you are on is clean or dirty
+git_prompt ()
+{
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    return 0
+  fi
+  # Grab working branch name
+  git_branch=$(Git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')
+  # Clean or dirty branch
+  if git diff --quiet 2>/dev/null >&2; then
+    git_color="${c_git_clean}"
+  else
+    git_color=${c_git_dirty}
+  fi
+  echo " [$git_color$git_branch${c_reset}]"
+}
 
-# Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/.rvm/bin" 
+# Load git completions
+# First run this in home directory:
+# curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+test -f ~/.git-completion.bash && . $_
 
-# Android development helpers
-export ANDROID_HOME=~/Library/Android/sdk
-PATH="~/Library/Android/sdk/tools:~/Library/Android/sdk/platform-tools:${PATH}"
+# Colors ls should use for folders, files, symlinks etc, see `man ls` and
+# search for LSCOLORS
+export LSCOLORS=ExGxFxdxCxDxDxaccxaeex
+# Force ls to use colors (G) and use humanized file sizes (h)
+alias ls='ls -Gh'
 
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+# Force grep to always use the color option and show line numbers
+export GREP_OPTIONS='--color=auto'
 
-# golang-style path
-export GOPATH=$HOME/projects/golang
-export PATH=$PATH:$GOPATH/bin
+# Set sublime as the default editor
+which -s subl && export EDITOR="sublime --wait"
 
-# set macvim as editor
-export EDITOR="vim"
+# Useful aliases
 
-# let other programs know that we are using bash
-export SHELL=/bin/bash
+alias e=subl
+alias be="bundle exec"
+alias ll="ls -la"
+alias gs="git status"
+alias gb="git branch"
+alias gco="git checkout"
+alias ga="git add"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gd="git diff"
+alias ngrok="/Applications/ngrok http"
+alias yolo="rake db:drop && rake db:create && rake db:migrate && rake db:seed"
+alias ngrok="~/ngrok http"
+alias snippets="subl ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/sublime-settings/."
 
-# adding custom bin functions to path
-# export PATH=$PATH:/Users/Joshua/bin
+# gh
+echo 'source ~/src/github.com/jdxcode/gh/bash/gh.bash' >> ~/.bashrc
+echo 'source ~/src/github.com/jdxcode/gh/completions/gh.bash' >> ~/.bashrc
+source ~/src/github.com/jdxcode/gh/bash/gh.bash
+source ~/src/github.com/jdxcode/gh/completions/gh.bash
+source ~/src/github.com/jdxcode/gh/bash/gl.bash
+source ~/src/github.com/jdxcode/gh/completions/gl.bash
 
-# for ruby 2.1.0 by default, for osx
-# export PATH=/Users/Joshua/.rvm/gems/ruby-2.1.0/bin:$PATH
-# rvm use 2.1.0
-
-# Color definitions (taken from Color Bash Prompt HowTo).
-# Some colors might look different of some terminals.
-# For example, I see 'Bold Red' as 'orange' on my screen,
-# hence the 'Green' 'BRed' 'Red' sequence I often use in my prompt.
-# Normal Colors
-Black='\e[0;30m'        # Black
-Red='\e[0;31m'          # Red
-Green='\e[0;32m'        # Green
-Yellow='\e[0;33m'       # Yellow
-Blue='\e[0;34m'         # Blue
-Purple='\e[0;35m'       # Purple
-Cyan='\e[0;36m'         # Cyan
-White='\e[0;37m'        # White
-# Bold
-BBlack='\e[1;30m'       # Black
-BRed='\e[1;31m'         # Red
-BGreen='\e[1;32m'       # Green
-BYellow='\e[1;33m'      # Yellow
-BBlue='\e[1;34m'        # Blue
-BPurple='\e[1;35m'      # Purple
-BCyan='\e[1;36m'        # Cyan
-BWhite='\e[1;37m'       # White
-# Background
-On_Black='\e[40m'       # Black
-On_Red='\e[41m'         # Red
-On_Green='\e[42m'       # Green
-On_Yellow='\e[43m'      # Yellow
-On_Blue='\e[44m'        # Blue
-On_Purple='\e[45m'      # Purple
-On_Cyan='\e[46m'        # Cyan
-On_White='\e[47m'       # White
-NC="\e[m"               # Color Reset
-ALERT=${BWhite}${On_Red} # Bold White on red background
-# Simple
-MAGENTA="\033[1;31m"
-ORANGE="\033[1;33m"
-GREEN="\033[1;32m"
-PURPLE="\033[1;35m"
-BLUE="\033[1;34m"
-WHITE="\033[1;37m"
-CYAN="\033[1;36m"
-BLACK="\033[1;30m"
-RED="\033[1;31m"
-BOLD=""
-RESET="\033[m"
-
-# brew install fortune, for fun :)
-# fortune
-
-[[ -r ~/.bashrc ]] && . ~/.bashrc
-[[ -r ~/.profile ]] && . ~/.profile
+# RBENV
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
