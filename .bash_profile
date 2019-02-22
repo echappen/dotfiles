@@ -68,8 +68,6 @@ alias ngrok="~/ngrok http"
 alias snippets="subl ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/sublime-settings/."
 
 # gh
-echo 'source ~/src/github.com/jdxcode/gh/bash/gh.bash' >> ~/.bashrc
-echo 'source ~/src/github.com/jdxcode/gh/completions/gh.bash' >> ~/.bashrc
 source ~/src/github.com/jdxcode/gh/bash/gh.bash
 source ~/src/github.com/jdxcode/gh/completions/gh.bash
 source ~/src/github.com/jdxcode/gh/bash/gl.bash
@@ -78,3 +76,6 @@ source ~/src/github.com/jdxcode/gh/completions/gl.bash
 # RBENV
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
+# custom bin commands
+export PATH=~/bin:$PATH

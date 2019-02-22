@@ -49,10 +49,6 @@ command! -complete=shellcmd -nargs=+ Sh new | 0read ! "<args>"
 " for tablilne colors
 hi TabLineFill term=bold cterm=bold ctermbg=0
 
-" For LimeLight config
-let g:limelight_conceal_ctermfg = 'white'
-let g:limelight_conceal_ctermfg = 240
-
 " for custom statusline
 " https://github.com/airblade/dotvim/blob/dd5d7737e39aad5e24c1a4a8c0d115ff2ae7b488/vimrc#L49-L91
 hi clear StatusLine
@@ -190,11 +186,6 @@ let g:jsdoc_enable_es6 = 1
 nmap <C-l> :call jsdoc#insert()<CR>
 " CompleteJS autocompletion
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
