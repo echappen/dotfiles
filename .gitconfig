@@ -2,3 +2,6 @@
   template = ~/.gitmessage
 [core]
 	editor = subl -n -w
+[user]
+	name = Eleni Chappen
+	email = eleni@officeluv.com
