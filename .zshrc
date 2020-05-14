@@ -114,6 +114,7 @@ alias yolo="rake db:drop && rake db:create && rake db:migrate && rake db:seed"
 alias ngrok="~/ngrok http"
 alias snippets="subl ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/sublime-settings/."
 alias squash="git rebase -i HEAD~2"
+alias gitdm="git branch --merged | egrep -v \"(^\*|master)\" | xargs git branch -d"
 
 # gh
 compinit
@@ -124,3 +125,9 @@ source ~/src/github.com/jdxcode/gh/bash/gh.bash
 source ~/src/github.com/jdxcode/gh/completions/gh.bash
 source ~/src/github.com/jdxcode/gh/bash/gl.bash
 source ~/src/github.com/jdxcode/gh/completions/gl.bash
+
+# RBENV
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
+. $HOME/.shellrc.load
